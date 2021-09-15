@@ -5,7 +5,7 @@ const Article = require("./../models/articles");
 
 router.get(
   "/articles/:slug",
-  validator.getArtticleValidator,
+  validator.getArticleValidator,
   async function (req, res) {
     let article = (await Article.getArticleBySlug(req.body.slug)) || {};
     res.json(article);

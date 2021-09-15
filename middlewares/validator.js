@@ -1,6 +1,6 @@
 const Joi = require("joi");
 module.exports = {
-  getArtticleValidator: function (req, res, next) {
+  getArticleValidator: function (req, res, next) {
     const schema = Joi.object({
       slug: Joi.string().min(2).required().messages({
         "string.base": "the provided string is not a valid article name",

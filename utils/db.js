@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 module.exports = function () {
-  mongoose.connect(process.env.ATLAS_CONNECTION_STRING).then(
+  mongoose.connect(process.env.MONGODB_URI).then(
     () => {
       console.log("connection established with atlas");
     },
