@@ -4,7 +4,7 @@ const apiRoutes = require("./routes/api");
 const app = express();
 require("dotenv").config();
 require("./utils/db")();
-
+if (process.env.NODE_ENV == "production") console.log("running on production");
 app.use(express.urlencoded({ extended: false }));
 //app.use(cors);
 app.use("/api", apiRoutes);
