@@ -1,9 +1,9 @@
 module.exports = function (req, res, next) {
-  if (req.headers.origin?.endsWith("umutaktas.me")) {
-    res.setHeader(
-      "Access-Control-Allow-Origin",
-      req.protocol + "://" + req.headers.origin
-    );
+  if (req.headers.origin?.endsWith("localhost:3000")) {
+    let origin = req.headers.origin.startsWith("http")
+      ? req.headers.origin
+      : req.protocol + "://" + req.headers.origin;
+    res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader(
       "Access-Control-Allow-Headers",
       "X-Requested-With,Content-Type"
