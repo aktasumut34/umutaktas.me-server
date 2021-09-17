@@ -3,7 +3,7 @@ const cors = require("./middlewares/cors");
 const apiRoutes = require("./routes/api");
 const app = express();
 require("dotenv").config();
-require("./utils/db")();
+require("./utils/db").init();
 if (process.env.NODE_ENV == "production") console.log("running on production");
 app.use(express.urlencoded({ extended: false }));
 app.use(cors);
