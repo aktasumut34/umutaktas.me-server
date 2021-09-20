@@ -20,15 +20,17 @@ module.exports = {
   },
   async getAllArticles(limit = 20, page = 1, query = "") {
     let article = await articles
-      .find()
+      .find({ name: { $regex: ".*" + query + ".*" } })
       .sort({ _id: "desc" })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
     return article;
   },
-  async getTotalArticles() {
-    let articleCount = await articles.countDocuments();
+  async getTotalArticles(query = "") {
+    let articleCount = await articles
+      .find({ name: { $regex: ".*" + query + ".*" } })
+      .countDocuments();
     return articleCount;
   },
 };
