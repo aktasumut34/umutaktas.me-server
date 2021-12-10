@@ -5,38 +5,31 @@ const Article = require("./../models/articles");
 
 router.get("/articles", async function (req, res) {
   let page = parseInt(req.query.page) || 1;
-  let limit = 5;
+  let tag = req.query.tag || "";
+  let limit = req.query.limit || 2;
+  let search = req.query.search || "";
+  let sort = req.query.sort || "desc";
   try {
     let articles, articleCount;
-    if (req.query.search) {
-      articles =
-        (await Article.getAllArticles(limit, page, req.query.search)) || {};
-      articleCount = (await Article.getTotalArticles(req.query.search)) || 0;
-    } else {
-      articles = (await Article.getAllArticles(limit, page)) || {};
-      articleCount = (await Article.getTotalArticles()) || 0;
-    }
+    articles =
+      (await Article.getAllArticles({ limit, page, search, tag, sort })) || {};
+    articleCount = (await Article.getTotalArticles({ search, tag })) || {};
     let totalPages = Math.ceil(articleCount / limit);
-    let nextPageUrl =
-      page >= totalPages ? null : "/api/articles?page=" + (page + 1);
-    let prevPageUrl = page <= 1 ? null : "/api/articles?page=" + (page - 1);
-    let firstPageUrl = "/api/articles";
-    let lastPageUrl =
-      totalPages == 1 ? "/api/articles" : "/api/articles?page=" + totalPages;
+    let tagDetails = tag ? await Article.getTagDetails(tag) : {};
     let meta = {
-      nextPageUrl,
-      prevPageUrl,
-      firstPageUrl,
-      lastPageUrl,
       page,
       totalPages,
       articleCount,
+      tag: tagDetails,
     };
-    if (articles.length) res.json({ meta, articles });
-    else throw new Error("404");
+    res.json({ meta, articles });
   } catch (e) {
     res.status(404).json({ message: "Page couldn't found" });
   }
+});
+router.get("/articles/tags", async function (req, res) {
+  let article = (await Article.getAllTags()) || {};
+  res.json(article);
 });
 router.get(
   "/articles/:slug",

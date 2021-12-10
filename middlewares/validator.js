@@ -9,9 +9,9 @@ module.exports = {
       }),
     });
     const options = {
-      abortEarly: false, // include all errors
-      allowUnknown: true, // ignore unknown props
-      stripUnknown: true, // remove unknown props
+      abortEarly: false,
+      allowUnknown: true,
+      stripUnknown: true,
       escapeHtml: true,
     };
     const { error, value } = schema.validate(req.params, options);
@@ -19,7 +19,7 @@ module.exports = {
       if (error.isJoi) return res.status(422).json({ message: error.message });
       res.status(500).json({
         message:
-          "There are an unhandled errors on the server, please try again later!",
+          "There are unhandled errors on the server, please try again later!",
       });
     } else {
       req.body = value;
