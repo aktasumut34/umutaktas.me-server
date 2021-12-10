@@ -46,8 +46,6 @@ module.exports = {
     tag = "",
   } = {}) {
     limit = parseInt(limit);
-
-    console.log(search);
     let article = [];
     if (search !== "") {
       article = await articles
