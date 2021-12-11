@@ -9,6 +9,7 @@ const articlesSchema = new mongoose.Schema({
   image: String,
   created: Date,
   tags: [{ name: String, slug: String }],
+  description: String,
 });
 
 const articles = mongoose.model("articles", articlesSchema);
@@ -53,7 +54,11 @@ module.exports = {
           $or: [
             { name: { $regex: ".*" + search + ".*", $options: "i" } },
             {
-              tags: { $elemMatch: { slug: { $regex: ".*" + search + ".*" } } },
+              tags: {
+                $elemMatch: {
+                  slug: { $regex: ".*" + search + ".*", $options: "i" },
+                },
+              },
             },
           ],
         })

@@ -24,7 +24,7 @@ router.get("/articles", async function (req, res) {
     };
     res.json({ meta, articles });
   } catch (e) {
-    res.status(404).json({ message: "Page couldn't found" });
+    res.status(404).json({ message: "An error" });
   }
 });
 router.get("/articles/tags", async function (req, res) {
@@ -35,8 +35,12 @@ router.get(
   "/articles/:slug",
   validator.getArticleValidator,
   async function (req, res) {
-    let article = (await Article.getArticleBySlug(req.body.slug)) || {};
-    res.json(article);
+    try {
+      let article = (await Article.getArticleBySlug(req.body.slug)) || {};
+      res.json({ article });
+    } catch (e) {
+      res.status(404).json({ message: "An error" });
+    }
   }
 );
 
